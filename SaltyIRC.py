@@ -42,7 +42,7 @@ def winner(text):
     winner = stringResult[0]
     winningTeam = stringResult[1]
     print(stringResult[0] + " " + stringResult[1])
-    #outputToCSV()
+    outputToCSV()
     return 1
 
 def author(text):
