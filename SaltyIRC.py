@@ -3,23 +3,35 @@ import socket
 import re
 
 def betsOpen(text):
-    regexResult = re.search('(?<=Bets are OPEN for)', text)
-    print("Regex:" +regexResult.group(0));
+    stringResult = text.split("Bets are OPEN for ");
+    stringResult = stringResult[1].split(" vs ")
+    firstFighter = stringResult[0]
+    stringResult = stringResult[1].split("! (")
+    secondFighter = stringResult[0]
+    stringResult = stringResult[1].split(" Tier)")
+    tier = stringResult[0]
+    print("raw data " + firstFighter + " " + secondFighter + " " + tier)
     return 1
 
 def betsLocked(text):
-    regexResult = re.search('(?<=Bets are locked.)', text)
-    print(regexResult.group(0));
+    stringResult = text.split("Bets are locked. ");
+    stringResult = stringResult[1].split(" - $")
+    secondFighterSalt = stringResult[2]
+    stringResult = stringResult[1].split(", ")
+    firstFighterSalt = stringResult[0]
+    print("Bets: " + firstFighterSalt + " " + secondFighterSalt )
     return 1
 
 def winner(text):
-    regexResult = re.search('(?<=wins!)', text)
-    print(regexResult.group(0));
+    stringResult = text.split(" wins! Payouts to Team ");
+    winner = stringResult[0]
+    winningTeam = stringResult[1]
+    print(stringResult[0] + " " + stringResult[1])
     return 1
 
 def author(text):
     regexResult = re.search('(?<=abc)def', text)
-    print(regexResult.group(0));
+    print(regexResult.group(0))
     return 1
 
 server = "irc.twitch.tv"       #settings
@@ -28,7 +40,7 @@ botnick = "OldSaltySeamon"
 password = "oauth:da8xxxzgdevh2m32is0tykln28p8pbb"
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
-print ("SaltyStat V 0.02")
+print ("SaltyStat V 0.2")
 irc.connect((server, 6667))                                                         #connects to the server
 sendMessage = "PASS "+ password +"\n"
 irc.send(sendMessage.encode())    #auth
@@ -51,7 +63,7 @@ while 1:    #puts it in a loop
        waifuTalk = decodedText.partition("#saltybet :")
        waifuTalk = waifuTalk[2]
        print ("WAIFU SAYS: " +waifuTalk)   #print text to console
-       if waifuTalk.find('Bets are OPEN') != -1:
+       if waifuTalk.find('Bets are OPEN for ') != -1:
            betsOpen(waifuTalk)
        elif waifuTalk.find('Bets are locked') != -1:
            betsLocked(waifuTalk)
