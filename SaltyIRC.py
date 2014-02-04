@@ -89,14 +89,6 @@ irc.send(sendMessage.encode())       #join the chan
 
 print ("Looks like we connected...")
 
-waifuTalk = "Bets are OPEN for Hotaru futaba vs Spin youmu! (S Tier)\r\n"
-betsOpen(waifuTalk)
-waifuTalk = "Bets are locked. Hotaru futaba - $36,042, Spin youmu - $244,816\r\n"
-betsLocked(waifuTalk)
-waifuTalk = "Hotaru futaba wins! Payouts to Team Red\r\n"
-winner(waifuTalk)
-winner(waifuTalk)
-
 while 1:    #puts it in a loop
    text = irc.recv(2048)
    decodedText = text.decode()
