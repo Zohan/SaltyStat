@@ -37,7 +37,7 @@ def betsLocked(text):
     return 1
 
 def winner(text):
-    global winner, winningTeam
+    global saltyWinner, winningTeam
     stringResult = text.split(" wins! Payouts to Team ");
     saltyWinner = stringResult[0]
     winningTeam = stringResult[1]
@@ -53,19 +53,19 @@ def author(text):
 def outputToCSV():
     global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, saltyWinner, winningTeam
     print("Outputting "+ firstFighter + " vs " + secondFighter + " Tier: " + tier)
-    if tier.find('PING') == -1:
+    if tier.find('S') != -1:
         with open("sTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier.find('PING') == -1:
+    elif tier.find('A') != -1:
         with open("aTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier.find('PING') == -1:
+    elif tier.find('B') != -1:
         with open("bTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier.find('PING') == -1:
+    elif tier.find('P') != -1:
         with open("pTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
