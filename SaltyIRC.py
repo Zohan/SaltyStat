@@ -9,7 +9,7 @@ secondFighter = ' '
 firstFighterSalt = ' '
 secondFighterSalt = ' '
 tier = 'N'
-winner = ' '
+saltyWinner = ' '
 winningTeam = ' '
 
 def betsOpen(text):
@@ -39,7 +39,7 @@ def betsLocked(text):
 def winner(text):
     global winner, winningTeam
     stringResult = text.split(" wins! Payouts to Team ");
-    winner = stringResult[0]
+    saltyWinner = stringResult[0]
     winningTeam = stringResult[1]
     print(stringResult[0] + " " + stringResult[1])
     outputToCSV()
@@ -51,21 +51,21 @@ def author(text):
     return 1
 
 def outputToCSV():
-    global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, winner, winningTeam
+    global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, saltyWinner, winningTeam
     print("Outputting "+ firstFighter + " vs " + secondFighter + " Tier: " + tier)
-    if tier == 'S':
+    if tier.find('PING') == -1:
         with open("sTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier == 'A':
+    elif tier.find('PING') == -1:
         with open("aTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier == 'B':
+    elif tier.find('PING') == -1:
         with open("bTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
-    elif tier == 'P':
+    elif tier.find('PING') == -1:
         with open("pTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
@@ -89,6 +89,14 @@ irc.send(sendMessage.encode())       #join the chan
 
 print ("Looks like we connected...")
 
+waifuTalk = "Bets are OPEN for Hotaru futaba vs Spin youmu! (S Tier)\r\n"
+betsOpen(waifuTalk)
+waifuTalk = "Bets are locked. Hotaru futaba - $36,042, Spin youmu - $244,816\r\n"
+betsLocked(waifuTalk)
+waifuTalk = "Hotaru futaba wins! Payouts to Team Red\r\n"
+winner(waifuTalk)
+winner(waifuTalk)
+
 while 1:    #puts it in a loop
    text = irc.recv(2048)
    decodedText = text.decode()
@@ -107,5 +115,3 @@ while 1:    #puts it in a loop
            winner(waifuTalk)
        elif waifuTalk.find('by') == 2:
            author(waifuTalk)
-       elif waifuTalk.find('Bets are locked') != -1:
-           betsOpen(waifuTalk)
