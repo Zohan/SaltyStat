@@ -1,8 +1,21 @@
 __author__ = 'Zohan'
 import socket
 import re
+import csv
+import time
+
+firstFighter = ' '
+secondFighter = ' '
+firstFighterSalt = ' '
+secondFighterSalt = ' '
+tier = 'N'
+winner = ' '
+winningTeam = ' '
 
 def betsOpen(text):
+    global firstFighter
+    global secondFighter
+    global tier
     stringResult = text.split("Bets are OPEN for ");
     stringResult = stringResult[1].split(" vs ")
     firstFighter = stringResult[0]
@@ -10,10 +23,11 @@ def betsOpen(text):
     secondFighter = stringResult[0]
     stringResult = stringResult[1].split(" Tier)")
     tier = stringResult[0]
-    print("raw data " + firstFighter + " " + secondFighter + " " + tier)
+    print("Fighters: " + firstFighter + " vs " + secondFighter + " Tier: " + tier)
     return 1
 
 def betsLocked(text):
+    global firstFighterSalt, secondFighterSalt
     stringResult = text.split("Bets are locked. ");
     stringResult = stringResult[1].split(" - $")
     secondFighterSalt = stringResult[2]
@@ -23,16 +37,38 @@ def betsLocked(text):
     return 1
 
 def winner(text):
+    global winner, winningTeam
     stringResult = text.split(" wins! Payouts to Team ");
     winner = stringResult[0]
     winningTeam = stringResult[1]
     print(stringResult[0] + " " + stringResult[1])
+    #outputToCSV()
     return 1
 
 def author(text):
     regexResult = re.search('(?<=abc)def', text)
     print(regexResult.group(0))
     return 1
+
+def outputToCSV():
+    global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, winner, winningTeam
+    print("Outputting "+ firstFighter + " vs " + secondFighter + " Tier: " + tier)
+    if tier == 'S':
+        with open("sTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
+    elif tier == 'A':
+        with open("aTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
+    elif tier == 'B':
+        with open("bTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
+    elif tier == 'P':
+        with open("pTier"+time.strftime("%m-%d-%y")+".csv", 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, winner, winningTeam])
 
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
