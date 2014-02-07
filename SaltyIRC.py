@@ -30,46 +30,52 @@ def betsLocked(text):
     global firstFighterSalt, secondFighterSalt
     stringResult = text.split("Bets are locked. ");
     stringResult = stringResult[1].split(" - $")
-    secondFighterSalt = stringResult[2]
+    secondFighterSalt = stringResult[2].replace(',', '')
     stringResult = stringResult[1].split(", ")
-    firstFighterSalt = stringResult[0]
-    print("Bets: " + firstFighterSalt + " " + secondFighterSalt )
+    firstFighterSalt = stringResult[0].replace(',', '')
+    print("Bets: " + firstFighterSalt + " " + secondFighterSalt)
     return 1
 
-def winner(text):
+def setWinner(text):
     global saltyWinner, winningTeam
     stringResult = text.split(" wins! Payouts to Team ");
     saltyWinner = stringResult[0]
-    winningTeam = stringResult[1]
+    winningTeam = stringResult[1].rstrip()
     print(stringResult[0] + " " + stringResult[1])
     outputToCSV()
     return 1
 
-def author(text):
+def setAuthor(text):
     regexResult = re.search('(?<=abc)def', text)
     print(regexResult.group(0))
     return 1
 
+def setTier(text):
+    global tier;
+    stringResult = text.split()
+    tier = stringResult[0]
+    print("Tier: " + stringResult[0])
+    return 1
+
 def outputToCSV():
     global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, saltyWinner, winningTeam
-    print("Outputting "+ firstFighter + " vs " + secondFighter + " Tier: " + tier)
     if tier.find('S') != -1:
-        with open("sTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='') as csvfile:
+        with open("sTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
     elif tier.find('A') != -1:
-        with open("aTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='') as csvfile:
+        with open("aTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
     elif tier.find('B') != -1:
-        with open("bTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='') as csvfile:
+        with open("bTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
     elif tier.find('P') != -1:
-        with open("pTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='') as csvfile:
+        with open("pTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
@@ -108,6 +114,8 @@ while 1:    #puts it in a loop
        elif waifuTalk.find('Bets are locked') != -1:
            betsLocked(waifuTalk)
        elif waifuTalk.find('wins!') != -1:
-           winner(waifuTalk)
+           setWinner(waifuTalk)
        elif waifuTalk.find('by') == 2:
-           author(waifuTalk)
+           setAuthor(waifuTalk)
+       elif waifuTalk.find('Tier') != -1:
+           setTier(waifuTalk)
