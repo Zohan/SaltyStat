@@ -26,7 +26,7 @@
       <file leaf-file-name="SaltyIRC.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SaltyIRC.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="67" selection-start="2607" selection-end="2607" vertical-scroll-proportion="0.7916667" vertical-offset="673" max-vertical-offset="2142">
+            <state line="33" column="42" selection-start="954" selection-end="954" vertical-scroll-proportion="0.36637932" vertical-offset="306" max-vertical-offset="2159">
               <folding>
                 <element signature="e#21#34#0" expanded="true" />
               </folding>
@@ -68,8 +68,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="483" />
-    <option name="y" value="7" />
+    <option name="x" value="222" />
+    <option name="y" value="20" />
     <option name="width" value="1371" />
     <option name="height" value="1000" />
   </component>
@@ -309,7 +309,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="483" y="7" width="1371" height="1000" extended-state="0" />
+    <frame x="222" y="20" width="1371" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -319,8 +319,8 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25535056" sideWeight="0.83179724" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39976957" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16820276" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16820276" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16820276" sideWeight="0.500369" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16820276" sideWeight="0.499631" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -435,7 +435,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SaltyIRC.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="67" selection-start="2607" selection-end="2607" vertical-scroll-proportion="0.7916667" vertical-offset="673" max-vertical-offset="2142">
+        <state line="33" column="42" selection-start="954" selection-end="954" vertical-scroll-proportion="0.36637932" vertical-offset="306" max-vertical-offset="2159">
           <folding>
             <element signature="e#21#34#0" expanded="true" />
           </folding>
