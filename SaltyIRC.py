@@ -47,8 +47,8 @@ def setWinner(text):
     return 1
 
 def setAuthor(text):
-    regexResult = re.search('(?<=abc)def', text)
-    print(regexResult.group(0))
+    #regexResult = re.search('(?<=abc)def', text)
+    #print(regexResult.group(0))
     return 1
 
 def setTier(text):
