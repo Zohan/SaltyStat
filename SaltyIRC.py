@@ -31,7 +31,7 @@ def betsLocked(text):
     stringResult = text.split("Bets are locked. ");
     stringResult = stringResult[1].split(" - $")
     secondFighterSalt = stringResult[2].replace(',', '')
-    secondFighterSalt = secondFighter.rstrip()
+    secondFighterSalt = secondFighterSalt.rstrip('\r\n')
     stringResult = stringResult[1].split(", ")
     firstFighterSalt = stringResult[0].replace(',', '')
     print("Bets: " + firstFighterSalt + " " + secondFighterSalt)
