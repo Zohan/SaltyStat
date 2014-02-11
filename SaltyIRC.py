@@ -83,8 +83,8 @@ def outputToCSV():
 
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
-botnick = "OldSaltySeamon"
-password = "oauth:da8xxxzgdevh2m32is0tykln28p8pbb"
+botnick = ""
+password = ""
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
 print ("SaltyStat V 0.2")
