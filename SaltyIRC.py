@@ -80,11 +80,21 @@ def outputToCSV():
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
+    elif tier.find('NEW') != -1:
+        with open("newTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
+            csvfile.close()
+    else:
+        with open("shakerTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
+            csvfile.close()
 
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
-botnick = ""
-password = ""
+botnick = "OldSaltySeamon"
+password = "oauth:da8xxxzgdevh2m32is0tykln28p8pbb"
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
 print ("SaltyStat V 0.2")
