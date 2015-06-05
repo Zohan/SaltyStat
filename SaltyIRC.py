@@ -1,6 +1,7 @@
 __author__ = 'Zohan'
 import socket
 import re
+import sys
 import csv
 import time
 
@@ -85,6 +86,11 @@ def outputToCSV():
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
+    elif tier.find('X') != -1:
+        with open("xTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
+            csvfile.close()
     else:
         with open("shakerTier"+time.strftime("%m-%d-%y")+".csv", 'a', newline='\n') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ', quotechar=',', quoting=csv.QUOTE_MINIMAL)
@@ -93,8 +99,8 @@ def outputToCSV():
 
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
-botnick = "OldSaltySeamon"
-password = "oauth:da8xxxzgdevh2m32is0tykln28p8pbb"
+botnick = ""
+password = ""
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
 print ("SaltyStat V 0.2")
@@ -112,14 +118,15 @@ print ("Looks like we connected...")
 
 while 1:    #puts it in a loop
    text = irc.recv(2048)
-   decodedText = text.decode()
+   decodedText = text.decode('utf-8')
    if decodedText.find('PING') != -1:                          #check if 'PING' is found
        sendMessage = 'PONG ' + decodedText.split() [1] + '\r\n'
        irc.send(sendMessage.encode()) #returnes 'PONG' back to the server (prevents pinging out!)
    elif decodedText.find(':waifu4u!waifu4u@waifu4u') != -1:
        waifuTalk = decodedText.partition("#saltybet :")
        waifuTalk = waifuTalk[2]
-       print ("WAIFU SAYS: " +waifuTalk)   #print text to console
+       #waifuOutput = str(waifuTalk, 'utf-8')
+       print ("Waifu said things")   #print text to console
        if waifuTalk.find('Bets are OPEN for ') != -1:
            betsOpen(waifuTalk)
        elif waifuTalk.find('Bets are locked') != -1:
