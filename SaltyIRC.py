@@ -106,8 +106,9 @@ def outputToCSV():
 
 def writeToSQLite():
     global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, saltyWinner, winningTeam
-    cur.execute("INSERT INTO Fights(FirstFighter, SecondFighter, FirstFighterSalt, SecondFighterSalt, Tier, SaltyWinner, WinningTeam) "
-                "VALUES(?, ?, ?, ?, ?, ?, ?)", (firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam))
+    date = time.strftime("%y-%m-%d")
+    cur.execute("INSERT INTO Fights(FirstFighter, SecondFighter, FirstFighterSalt, SecondFighterSalt, Tier, SaltyWinner, WinningTeam, Date) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", (firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam, date))
     con.commit()
 
 #SQLite
@@ -123,7 +124,7 @@ with con:
     print ("SQLite version: %s" % data)
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS Fights(ID INT PRIMARY KEY, FirstFighter TEXT, SecondFighter TEXT, "
-                "FirstFighterSalt INT, SecondFighterSalt INT, Tier TEXT, SaltyWinner TEXT, WinningTeam TEXT)")
+                "FirstFighterSalt INT, SecondFighterSalt INT, Tier TEXT, SaltyWinner TEXT, WinningTeam TEXT, Date DATE)")
 
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
@@ -131,7 +132,7 @@ botnick = ""
 password = ""
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
-print ("SaltyStat V 0.30")
+print ("SaltyStat V 0.33")
 irc.connect((server, 6667))                                                         #connects to the server
 sendMessage = "PASS "+ password +"\n"
 irc.send(sendMessage.encode())    #auth
