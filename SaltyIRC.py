@@ -4,6 +4,7 @@ import re
 import sys
 import csv
 import time
+import sqlite3 as lite
 
 firstFighter = ' '
 secondFighter = ' '
@@ -17,6 +18,7 @@ def betsOpen(text):
     global firstFighter
     global secondFighter
     global tier
+    print ("Bets Result " +text)   #print text to console
     stringResult = text.split("Bets are OPEN for ");
     stringResult = stringResult[1].split(" vs ")
     firstFighter = stringResult[0];
@@ -29,22 +31,27 @@ def betsOpen(text):
 
 def betsLocked(text):
     global firstFighterSalt, secondFighterSalt
-    stringResult = text.split("Bets are locked. ");
-    stringResult = stringResult[1].split(" - $")
-    secondFighterSalt = stringResult[2].replace(',', '')
-    secondFighterSalt = secondFighterSalt.rstrip('\r\n')
-    stringResult = stringResult[1].split(", ")
-    firstFighterSalt = stringResult[0].replace(',', '')
-    print("Bets: " + firstFighterSalt + " " + secondFighterSalt)
+    try:
+        stringResult = text.split("Bets are locked. ");
+        stringResult = stringResult[1].split(" - $")
+        secondFighterSalt = stringResult[2].replace(',', '')
+        secondFighterSalt = secondFighterSalt.rstrip('\r\n')
+        stringResult = stringResult[1].split(", ")
+        firstFighterSalt = stringResult[0].replace(',', '')
+        print("Bets: " + firstFighterSalt + " " + secondFighterSalt)
+    except (IndexError):
+        pass
     return 1
 
 def setWinner(text):
     global saltyWinner, winningTeam
-    stringResult = text.split(" wins! Payouts to Team ");
+    stringResult = text.split(" wins! Payouts to Team ")
     saltyWinner = stringResult[0]
-    winningTeam = stringResult[1].rstrip()
+    stringResult = stringResult[1].split(".")
+    winningTeam = stringResult[0].rstrip()
     print(stringResult[0] + " " + stringResult[1])
-    outputToCSV()
+    #outputToCSV()
+    writeToSQLite()
     return 1
 
 def setAuthor(text):
@@ -97,13 +104,34 @@ def outputToCSV():
             writer.writerow([firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam])
             csvfile.close()
 
+def writeToSQLite():
+    global firstFighter, firstFighterSalt, secondFighter, secondFighterSalt, tier, saltyWinner, winningTeam
+    cur.execute("INSERT INTO Fights(FirstFighter, SecondFighter, FirstFighterSalt, SecondFighterSalt, Tier, SaltyWinner, WinningTeam) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?)", (firstFighter, secondFighter, firstFighterSalt, secondFighterSalt, tier, saltyWinner, winningTeam))
+    con.commit()
+
+#SQLite
+con = lite.connect('saltybet.db')
+
+with con:
+
+    cur = con.cursor()
+    cur.execute('SELECT SQLITE_VERSION()')
+
+    data = cur.fetchone()
+
+    print ("SQLite version: %s" % data)
+    cur = con.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS Fights(ID INT PRIMARY KEY, FirstFighter TEXT, SecondFighter TEXT, "
+                "FirstFighterSalt INT, SecondFighterSalt INT, Tier TEXT, SaltyWinner TEXT, WinningTeam TEXT)")
+
 server = "irc.twitch.tv"       #settings
 channel = "#saltybet"
 botnick = ""
 password = ""
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #defines the socket
 
-print ("SaltyStat V 0.2")
+print ("SaltyStat V 0.30")
 irc.connect((server, 6667))                                                         #connects to the server
 sendMessage = "PASS "+ password +"\n"
 irc.send(sendMessage.encode())    #auth
@@ -126,7 +154,7 @@ while 1:    #puts it in a loop
        waifuTalk = decodedText.partition("#saltybet :")
        waifuTalk = waifuTalk[2]
        #waifuOutput = str(waifuTalk, 'utf-8')
-       print ("Waifu said things")   #print text to console
+       print ("Waifu talkin")   #print text to console
        if waifuTalk.find('Bets are OPEN for ') != -1:
            betsOpen(waifuTalk)
        elif waifuTalk.find('Bets are locked') != -1:
